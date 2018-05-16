@@ -9,7 +9,9 @@ class Users extends ActiveRecord{
         $this->has_many('detalle');
     }    
     function crearUsuario($datosUsuario){
-        $usuario = Load::model('users');        
+        $usuario = Load::model('users');
+        $clave = md5($datosUsuario['password']);
+        $datosUsuario['password'] = $clave;
         $usuario->begin();        
         try{
             $usuario->create($datosUsuario);

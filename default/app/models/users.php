@@ -36,7 +36,9 @@ class Users extends ActiveRecord{
         }
     }
     function passUsuario($dataUsers){
-        $usuario = Load::model('users');                
+        $usuario = Load::model('users'); 
+        $clave = md5($dataUsers['password']);
+        $dataUsers['password'] = $clave;
         $usuario->begin();
         try {            
             $usuario->update($dataUsers);

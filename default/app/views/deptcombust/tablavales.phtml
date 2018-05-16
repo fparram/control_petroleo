@@ -1,0 +1,55 @@
+<?php
+View::template('');
+?>
+<?php echo Form::open('deptcombust/ingresovales/') ?>
+<?php echo Form::hidden('solc.', '', $solicitud_id) ?>
+<div class="table-responsive">
+    <div class="col-md-12">
+        <div class="title">
+            <h5>Complete la informacion con los vales correspondientes a la solicitud:</h5>
+        </div>
+        <?php if (count($page) != '') { ?>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>F. Entrega</th>
+                        <th>Patente</th>
+                        <th>L. Solic</th>
+                        <th>L. Asign</th>
+                        <th class="text-center">F. Entr. Real</th>
+                        <th class="text-center">L. Cards</th>
+                        <th class="text-center">Nº Vale</th>
+                        <th class="text-center">Horometro</th>
+                        <th class="text-center">Quien Recibe</th>
+                        <th class="text-center">No Carga</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($page as $listado): ?> 
+                        <tr>
+                            <td style="width: 100px"><?php echo $listado->fentrega ?><?php echo Form::hidden('id.', '', $listado->id) ?></td>
+                            <td style="width: 50px"><?php echo $listado->getVehiculos()->patente ?></td>
+                            <td style="width: 50px"><?php echo $listado->litros ?></td>                                            
+                            <td style="width: 50px"><?php echo $listado->lasignados ?></td>
+                            <td style="width: 50px"><?php echo Form::date('frentrega.', 'class="" onblur="this.value=this.value.toUpperCase();"', $listado->frentrega) ?></td>
+                            <td style="width: 20px"><?php echo Form::text('lcargados.', 'class="form-control" onblur="this.value=this.value.toUpperCase();"', $listado->lcargados) ?></td>
+                            <td style="width: 50px"><?php echo Form::text('nvale.', 'class="form-control" onblur="this.value=this.value.toUpperCase();"', $listado->nvale) ?></td>
+                            <td style="width: 50px"><?php echo Form::text('hactual.', 'class="form-control" onblur="this.value=this.value.toUpperCase();"', $listado->hactual) ?></td>
+                            <td style="width: 200px"><?php echo Form::text('qrecibe.', 'class="form-control" onblur="this.value=this.value.toUpperCase();"', $listado->qrecibe) ?></td>
+                            <td class="text-center" style="width: 50px"><?php echo $listado->carga != 0 ? '<input type="checkbox" id="carga_" name="carga[]" value="'.$listado->id.'" checked="" onchange="noCarga(this.checked, this.value)">' : '<input type="checkbox" id="carga_" name="carga[]" value="'.$listado->id.'" onchange="noCarga(this.checked, this.value)">' ?></td>
+                            <?php echo Form::hidden('loguser.', '', $listado->loguser)?>
+                            <?php echo Form::hidden('logfecha.', '', $listado->logfecha)?>
+                            <?php echo Form::hidden('loghora.', '', $listado->loghora)?>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php } else { ?>
+            <h2>No hay ningún registro</h2>
+        <?php } ?>                        
+    </div>
+</div>
+<div class="row-content text-right">
+    <button type="submit" class="btn btn-success btn-sm btn-round">Guardar</button>
+</div>
+<?php echo Form::close() ?>

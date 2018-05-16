@@ -1,0 +1,58 @@
+<?php if (Auth::get('privilegio')== 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+}  else {
+    $style = 'margin-top: 130px';
+} ?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>"> 
+            <div class="container">               
+                <div class="title">
+                    <h3>Solicitudes por Asignar Litros</h3>
+                </div>                             
+            </div>           
+            <div class="container" style="padding-top: 40px">
+                <div class="table-responsive">
+                    <div class="col-md-11">                        
+                        <table id="listasignacion" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>U. de Negocio</th>
+                                        <th>F. Solicitud</th>
+                                        <th>F. Entrega</th>
+                                        <th>Solicitante</th>
+                                        <th>Estado</th>
+                                        <th class="text-center">Asignar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($page as $listado): ?> 
+                                        <tr>
+                                            <td><?php echo $listado->id ?></td>
+                                            <td><?php echo $listado->getUnegocio()->nombre ?></td>
+                                            <td><?php echo $listado->fecha ?></td>
+                                            <td><?php echo $listado->fentrega ?></td>
+                                            <td><?php echo $listado->getUsers()->nombre ?></td>
+                                            <td><?php echo $listado->estado ?></td>
+                                            <td class="td-actions text-center">                                                
+                                                <a rel="tooltip" title="Asignar Litros" href="/deptcombust/asigna/<?php echo $listado->id ?>" class="btn btn-success btn-simple btn-xs">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>                                                                                            
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>                                               
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

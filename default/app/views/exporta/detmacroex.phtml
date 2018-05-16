@@ -1,0 +1,86 @@
+<?php
+
+header('Content-Type: application/vdn.ms-excel');
+header('Content-Disposition: attachment; filename=reportedetmacro.xls');
+
+Load::lib('PHPExcel');
+
+$excel = new PHPExcel();
+
+$excel->getProperties()->setCreator('SantaFe')->setLastModifiedBy('SantaFe')->setTitle('Reporte');
+
+$excel->setActiveSheetIndex(0);
+
+$pagina = $excel->getActiveSheet();
+
+$pagina->setTitle('Reporte');
+
+$pagina->setCellValue('A1','Patente');
+$pagina->setCellValue('B1','Tipo de Vehiculo');
+$pagina->setCellValue('C1', $nm1);
+$pagina->setCellValue('D1', $nm2);
+$pagina->setCellValue('E1', $nm3);
+$pagina->setCellValue('F1','A la Fecha');
+
+$pagina->getStyle('A1:F1')->getFont()->setBold(TRUE);
+$pagina->getStyle('A1:F1')->getFont()->setSize(12);
+
+$i = 1;
+$flag = 0;
+foreach ($patentes as $items):
+    $i++;
+    $pagina->setCellValue('A'.$i, $items->patente);
+    $pagina->setCellValue('B'.$i, $items->nombre);
+    foreach ($mes3 as $items1):
+        if ($items->patente == $items1->patente) {
+            $flag = 1;
+            $pagina->setCellValue('C'.$i, $items1->litros);
+        }
+    endforeach;
+    if ($flag == 1) {
+        $flag = 0;
+    }  else {
+        $pagina->setCellValue('C'.$i, '-');
+    }   
+    foreach ($mes2 as $items2):
+        if ($items->patente == $items2->patente) {
+            $flag = 1;
+            $pagina->setCellValue('D'.$i, $items2->litros);           
+        }
+    endforeach;
+    if ($flag == 1) {
+        $flag = 0;
+    }  else {
+        $pagina->setCellValue('D'.$i, '-');
+    }
+    foreach ($mes1 as $items3):
+        if ($items->patente == $items3->patente) {
+            $flag = 1;
+            $pagina->setCellValue('E'.$i, $items3->litros);
+        }
+    endforeach;
+    if ($flag == 1) {
+        $flag = 0;
+    }  else {
+        $pagina->setCellValue('E'.$i, '-');
+    }    
+    foreach ($actual as $items4):
+        if ($items->patente == $items4->patente) {
+            $flag = 1;
+            $pagina->setCellValue('F'.$i, $items4->litros);
+        }
+    endforeach;
+    if ($flag == 1) {
+        $flag = 0;
+    }  else {
+        $pagina->setCellValue('F'.$i, '-');
+    }
+endforeach;
+
+foreach (range('A', 'F') as $column):
+    $pagina->getColumnDimension($column)->setAutoSize(TRUE);
+endforeach;
+
+
+$objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+$objWriter->save('php://output');

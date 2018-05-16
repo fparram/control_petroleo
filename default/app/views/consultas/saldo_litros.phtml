@@ -1,0 +1,29 @@
+<?php
+if (Auth::get('privilegio') == 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+} else {
+    $style = 'margin-top: 130px';
+}
+?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>"> 
+            <div class="container">               
+                <div class="title">
+                    <h3>Informacion de Patente: <?php echo $vehiculo->patente ?></h3>
+                </div>
+                <dl>
+                    <dd><h5>Litros Autorizados: <?php echo $vehiculo->limite ?></h5></dd>
+                    <dd><h5>Litros Ocupados: <?php echo $vehiculo->conteo ?></h5></dd>
+                    <dd><h5>Litros Ocupados del siguiente mes: <?php echo $vehiculo->conteotemp ?></h5></dd>                    
+                </dl>
+            </div>           
+        </div>
+    </div>
+</div>

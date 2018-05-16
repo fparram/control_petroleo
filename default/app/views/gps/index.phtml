@@ -1,0 +1,53 @@
+<?php
+if (Auth::get('privilegio') == 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+} else {
+    $style = 'margin-top: 130px';
+}
+?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>">             
+            <?php View::content() ?>
+            <div class="container">
+                <div class="title">
+                    <h3>Listado de Pantentes con GPS</h3>
+                </div>                                        
+            </div>
+            <div class="container" id="listadoUsers">
+                <div class="table-responsive">                                                                  
+                    <table id="list_gps" class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Patente</th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Limite</th>
+                                <th>Conteo</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($listado['data'] as $item): ?> 
+                                <tr>
+                                    <td><?php echo $item->id ?></td>
+                                    <td><?php echo $item->patente ?></td>
+                                    <td><?php echo $item->marca ?></td>
+                                    <td><?php echo $item->modelo ?></td>
+                                    <td><?php echo $item->limite ?></td>
+                                    <td><?php echo $item->conteo ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>                                         
+                </div>
+            </div>                
+        </div>
+    </div>    
+</div>

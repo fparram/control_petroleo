@@ -1,0 +1,98 @@
+<?php
+View::template('');
+$total1 = 0;
+$total2 = 0;
+$total3 = 0;
+$total4 = 0;
+
+$flag = 0;
+if (count($page1) > 0) {
+    ?>  
+    <h5>Consumos por flota en los ultimos tres meses, mas el consumo a la fecha de hoy.</h5>
+    <table class="table table-bordered">
+        <?php echo Form::hidden('une', 'data-id="' . $unegocio . '"', $unegocio) ?>
+        <thead>
+            <tr>
+                <th>T. Vehiculo</th>
+                <th><?php echo $nm3 ?></th>
+                <th><?php echo $nm2 ?></th>
+                <th><?php echo $nm1 ?></th> 
+                <th>A la Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($macrotipo as $macro): ?> 
+                <tr>                                            
+                    <td><?php echo '<a rel="tooltip" title="Ver Detalle" href="#" data-id="' . $macro->id . '" class="text-success open-Modal-detMacro1" data-toggle="modal" data-target="#myModal-detMacro">
+                    ' . $macro->nombre . '</a>' ?></td>
+                    <?php foreach ($page1 as $listado1): ?>
+                        <?php
+                        if ($macro->nombre == $listado1->nombre) {
+                            $total1 = $total1 + $listado1->litros;
+                            $flag = 1;
+                            ?>
+                            <td><?php echo number_format($listado1->litros) ?></td>
+                        <?php } ?>                            
+                    <?php endforeach; ?>
+                    <?php if($flag == 1){ 
+                        $flag = 0;?>
+                    <?php }else{ ?>
+                        <td>-</td>
+                    <?php } ?>
+                    <?php foreach ($page2 as $listado2): ?>
+                        <?php
+                        if ($macro->nombre == $listado2->nombre) {
+                            $total2 = $total2 + $listado2->litros;
+                            $flag = 1;
+                            ?>
+                            <td><?php echo number_format($listado2->litros) ?></td>
+                        <?php } ?>
+                    <?php endforeach; ?>
+                            <?php if($flag == 1){ 
+                        $flag = 0;?>
+                    <?php }else{ ?>
+                        <td>-</td>
+                    <?php } ?>
+                    <?php foreach ($page3 as $listado3): ?>
+                        <?php
+                        if ($macro->nombre == $listado3->nombre) {                            
+                            $total3 = $total3 + $listado3->litros;
+                            $flag = 1;
+                            ?>
+                            <td><?php echo number_format($listado3->litros) ?></td>
+                        <?php } ?>
+                    <?php endforeach; ?>
+                            <?php if($flag == 1){ 
+                        $flag = 0;?>
+                    <?php }else{ ?>
+                        <td>-</td>
+                    <?php } ?>
+                    <?php foreach ($page4 as $listado4): ?>
+                        <?php
+                        if ($macro->nombre == $listado4->nombre) {
+                            $total4 = $total4 + $listado4->litros;
+                            $flag = 1;
+                            $data[] = (object) array("label" => $listado4->nombre, "value" => $listado4->litros);
+                            ?>
+                            <td><?php echo number_format($listado4->litros) ?></td>
+                        <?php } ?>
+                    <?php endforeach; ?>
+                            <?php if($flag == 1){ 
+                        $flag = 0;?>
+                    <?php }else{ ?>
+                        <td>-</td>
+                    <?php } ?>
+                </tr>
+            <?php endforeach; ?>
+            <tr>
+                <td>Totales</td>
+                <td><?php echo number_format($total1) ?></td>
+                <td><?php echo number_format($total2) ?></td>
+                <td><?php echo number_format($total3) ?></td>
+                <td><?php echo number_format($total4) ?></td>
+            </tr>
+        </tbody>
+    </table>
+<?php } else { ?>
+    <h2>No hay ningún registro</h2>
+<?php } ?>

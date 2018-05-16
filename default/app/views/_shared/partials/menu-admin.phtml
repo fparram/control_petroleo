@@ -1,0 +1,70 @@
+<nav class="navbar navbar-info navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-index">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="<?= PUBLIC_PATH ?>">
+                <div class="logo-container">
+                    <div class="logo">
+                        <img src="/img/material-kit/logo_1.png" alt="Inversiones Santa Fe" rel="tooltip" title="<b>ERP Holding Santa Fe</b> facilitado por Inversiones Santa Fe S.A.</b>" data-placement="bottom" data-html="true">
+                    </div>
+                    <div class="brand">
+                        <h8><b>Holding SantaFe</b></h8>                        
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="navigation-index">
+            <ul class="nav navbar-nav">
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración<b class="caret"></b> </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="dropdown-header">Perfiles</li>
+                        <li><a href="<?= PUBLIC_PATH ?>users/">Usuarios</a></li>
+                        <li><a href="<?= PUBLIC_PATH ?>privilegios/">Privilegios</a></li>  
+                        <li><a href="<?= PUBLIC_PATH ?>soporte/">Soporte</a></li> 
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Sistemas<b class="caret"></b></a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="dropdown-header">Plataformas</li>
+                        <li><a href="<?= PUBLIC_PATH ?>deptcombust/">Sistema de Combustible</a></li>
+                        <li><a href="<?= PUBLIC_PATH ?>deptadq/">Sistema de Aquisiciones</a></li>
+                        <li><a href="#">Sistema de C. de Gestion</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Recursos</li>
+                        <li><a href="<?= PUBLIC_PATH ?>unegocio/">Unidades de Negocio</a></li>                        
+                        <li><a href="<?= PUBLIC_PATH ?>ccosto/">Centro de Costo</a></li>
+                        <li><a href="<?= PUBLIC_PATH ?>productos/">Productos</a></li>
+                        <li><a href="#">Parametros</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Consultas</a></li>
+                <li><a href="<?= PUBLIC_PATH ?>soporte/solicitudes">Soporte</a></li>                
+            </ul>
+            <ul class="nav navbar-nav navbar-right">                
+                <li>
+                    <a href="#pablo"><i class="material-icons">notifications_active</i></a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="material-icons">settings</i>
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="dropdown-header">Configuraciones</li>
+                        <li><a href="<?= PUBLIC_PATH ?>perfil/">Perfil</a></li>                        
+                        <li><a href="#">Ayuda</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Reportar un Problema</a></li>
+                        <li class="divider"></li>
+                        <li><a href="<?= PUBLIC_PATH ?>users/logout">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

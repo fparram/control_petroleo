@@ -1,0 +1,137 @@
+<?php
+if (Auth::get('privilegio') == 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+} else {
+    $style = 'margin-top: 130px';
+}
+?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>">            
+            <?php View::content() ?>
+            <div class="container">
+                <div class="title">
+                    <h3>Exportacion de Informes</h3>
+                </div>                
+            </div>                    
+            <div class="container">
+                <div class="row">                    
+                    <div class="col-sm-3">
+                        <?php echo Form::open('consultas/xunegocio') ?>
+                        <div class="title">
+                            <h5>Por Unidad de Negocio</h5>
+                        </div> 
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Unidad de Negocio</label>
+                            <?php echo Form::dbSelect('consulta.id', 'nombre', array('unegocio', 'relacion2', Auth::get('id')), '', 'class="form-control" required'); ?>                            
+                        </div>
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Desde</label>
+                            <?php echo Form::date('consulta.desde', 'class="form-control" required', date('Y-m-d')) ?> 
+                        </div>
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Hasta</label>
+                            <?php echo Form::date('consulta.hasta', 'class="form-control" required', date('Y-m-d')) ?> 
+                        </div>
+                        <button type="submit" class="btn btn-success btn-xs">Buscar</button>
+                        <?php echo Form::close() ?>
+                    </div>
+                    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR' or Auth::get('privilegio') == 'ADMIN_COMBUST') { ?>
+                        <div class="col-sm-3">
+                            <?php echo Form::open('consultas/xpatente') ?>
+                            <div class="title">
+                                <h5>Por Patente</h5>
+                            </div>
+                            <div class="form-group label-floating has-success">                            
+                                <label class="control-label">Patentes</label>
+                                <?php $ar2 = array(); ?>
+                                <?php foreach ($vehiculos as $vehiculos): ?>
+                                    <?php
+                                    $ar1 = array($vehiculos->id => $vehiculos->patente . " / " . $vehiculos->marca . " / " . $vehiculos->modelo);
+                                    $ar2 = $ar2 + $ar1;
+                                    ?>                                       
+                                <?php endforeach; ?>
+                                <?php echo Form::Select('consulta.id', $ar2, 'class="chosen-select" required'); ?>
+                            </div>
+                            <div class="form-group label-floating has-success" style="margin-top: 45px">
+                                <label class="control-label">Desde</label>
+                                <?php echo Form::date('consulta.desde', 'class="form-control" required', date('Y-m-d')) ?> 
+                            </div>
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Hasta</label>
+                                <?php echo Form::date('consulta.hasta', 'class="form-control" required', date('Y-m-d')) ?> 
+                            </div>
+                            <button type="submit" class="btn btn-success btn-xs">Buscar</button>
+                            <?php echo Form::close() ?>
+                        </div>
+                        <div class="col-sm-3">
+                            <?php echo Form::open('consultas/xtipo') ?>
+                            <div class="title">
+                                <h5>Por Tipo de Vehiculo</h5>
+                            </div>
+                            <div class="form-group label-floating has-success">                            
+                                <label class="control-label">Tipo de Vehiculo</label>                                
+                                <?php echo Form::dbSelect('consulta.id', 'nombre', array('tvehiculos', 'find'), '- Selecciones un Tipo -', 'class="chosen-select" required'); ?>
+                            </div>
+                            <div class="form-group label-floating has-success" style="margin-top: 45px">
+                                <label class="control-label">Desde</label>
+                                <?php echo Form::date('consulta.desde', 'class="form-control" required', date('Y-m-d')) ?> 
+                            </div>
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Hasta</label>
+                                <?php echo Form::date('consulta.hasta', 'class="form-control" required', date('Y-m-d')) ?> 
+                            </div>
+                            <button type="submit" class="btn btn-success btn-xs">Buscar</button>
+                            <?php echo Form::close() ?>
+                        </div>
+                        <div class="col-sm-3">
+                            <?php echo Form::open('consultas/xmacrotipo') ?>
+                            <div class="title">
+                                <h5>Por Macrotipo de Vehiculo</h5>
+                            </div>
+                            <div class="form-group label-floating has-success">                            
+                                <label class="control-label">Macrotipo</label>                                
+                                <?php echo Form::dbSelect('consulta.id', 'nombre', array('macrotipo', 'find'), '- Selecciones un Tipo -', 'class="chosen-select" required'); ?>
+                            </div>
+                            <div class="form-group label-floating has-success" style="margin-top: 45px">
+                                <label class="control-label">Desde</label>
+                                <?php echo Form::date('consulta.desde', 'class="form-control" required', date('Y-m-d')) ?> 
+                            </div>
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Hasta</label>
+                                <?php echo Form::date('consulta.hasta', 'class="form-control" required', date('Y-m-d')) ?> 
+                            </div>
+                            <button type="submit" class="btn btn-success btn-xs">Buscar</button>
+                            <?php echo Form::close() ?>
+                        </div>
+                    <?php } ?>
+                        <div class="col-sm-3">
+                        <?php echo Form::open('consultas/saldo_litros') ?>
+                        <div class="title">
+                            <h5>Consulta de Saldo (Litros)</h5>
+                        </div> 
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Unidad de Negocio</label>
+                            <?php $vh2 = array(); ?>
+                                <?php foreach ($vehiculos2 as $vehiculos2): ?>
+                                    <?php
+                                    $vh1 = array($vehiculos2->id => $vehiculos2->patente . " / " . $vehiculos2->marca . " / " . $vehiculos2->modelo);
+                                    $vh2 = $vh2 + $vh1;
+                                    ?>                                       
+                                <?php endforeach; ?>
+                                <?php echo Form::Select('consulta.id', $vh2, 'class="chosen-select" required'); ?>
+                        </div>                        
+                        <button type="submit" class="btn btn-success btn-xs">Buscar</button>
+                        <?php echo Form::close() ?>
+                    </div>
+                </div>                              
+            </div>                                                  
+        </div>
+    </div>    
+</div>

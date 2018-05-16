@@ -1,0 +1,65 @@
+<?php
+if (Auth::get('privilegio') == 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+} else {
+    $style = 'margin-top: 130px';
+}
+?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>"> 
+            <div class="container">               
+                <div class="title">
+                    <h3>Busqueda por Unidad de Negocio</h3>
+                </div>
+                <dl>
+                    <dd><h5 id="xunegocio" data-id="<?php echo $unegocio->id ?>">Unidad de Negocio: <?php echo $unegocio->nombre ?></h5></dd>
+                    <dd><h5 id="desde" data-id="<?php echo $desde ?>">Desde: <?php echo $desde ?></h5></dd>                               
+                    <dd><h5 id="hasta" data-id="<?php echo $hasta ?>">Hasta: <?php echo $hasta ?></h5></dd>                               
+                </dl>
+            </div>
+            <div class="table-responsive col-sm-12">                                                            
+                <table id="dt_datos" class="table table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>U. de Negocio</th>
+                            <th>F. Solicitud</th>
+                            <th>F. Entrega</th>
+                            <th>Solicitante</th>
+                            <th>Estado</th>
+                            <th class="text-center">Detalle</th>
+                        </tr>
+                    </thead>                                
+                </table>
+            </div>
+            <div class="container">
+                    <?php echo Form::open('exporta/xfechatodo') ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?php echo Form::hidden('consultaxune.id', '', $unegocio->id) ?>
+                            <?php echo Form::hidden('consultaxune.desde', '', $desde) ?>
+                            <?php echo Form::hidden('consultaxune.hasta', '', $hasta) ?>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-fab-mini btn-round btn-xs" style="margin-top: 20px">
+                        Descargar
+                    </button>
+                    <?php echo Form::close() ?>
+                </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal-detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-lg">
+
+        </div>
+    </div>
+</div>

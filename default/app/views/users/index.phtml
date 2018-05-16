@@ -1,0 +1,174 @@
+
+<div class="wrapper">
+    <div class="header">
+
+    </div>
+    <div class="main main-raised">
+        <div class="container" style="margin-top: 40px">                        
+            <?php View::content() ?>
+            <div class="container">
+                <div class="title">
+                    <h3>Perfiles de Usuarios</h3>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <button type="button" rel="tooltip" title="Crear Nuevo Perfil" class="btn btn-info btn-round btn-sm" data-toggle="modal" data-target="#myModal">
+                            <i class="material-icons">account_circle</i>
+                            Nuevo
+                        </button>
+                    </div>                   
+                </div>
+            </div>
+            <div class="container" id="listadoUsers">
+                <div class="table-responsive">
+                    <div class="col-md-11">
+                        <?php if (count($page->items) > 0) { ?>                        
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Fono</th>
+                                        <th>Email</th>
+                                        <th>Privilegio</th>
+                                        <th>Horario</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($page->items as $listado): ?> 
+                                        <tr>
+                                            <td><?php echo $listado->id ?></td>
+                                            <td><?php echo $listado->nombre ?></td>
+                                            <td><?php echo $listado->apellido ?></td>
+                                            <td><?php echo $listado->fono ?></td>
+                                            <td><?php echo $listado->email ?></td>
+                                            <td><?php echo $listado->privilegio ?></td>
+                                            <td><?php echo $listado->horario ?></td>
+                                            <td class="td-actions text-right">
+                                                <button type="button" rel="tooltip" data-id="<?php echo $listado->id ?>" title="Cambiar Clave" class="btn btn-info btn-simple btn-xs open-Modal-pass" data-toggle="modal" data-target="#myModal-pass">
+                                                    <i class="fa fa-key"></i>
+                                                </button>
+                                                <a rel="tooltip" title="Editar Perfil" href="/users/editar/<?php echo $listado->id ?>" class="btn btn-success btn-simple btn-xs">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a rel="tooltip" title="Relaciones" href="/users/relacionar/<?php echo $listado->id ?>" class="btn btn-success btn-simple btn-xs">
+                                                    <i class="fa fa-handshake-o"></i>
+                                                </a>
+                                                <a rel="tooltip" title="Remover Perfil " href="/users/eliminar/<?php echo $listado->id ?>" class="btn btn-danger btn-simple btn-xs">
+                                                    <i class="fa fa-times"></i>
+                                                </a>                                            
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php } else { ?>
+                            <h2>No hay ningún registro</h2>
+                        <?php } ?>
+                        <?php View::partial('paginators/classic', false, array('page' => $page, 'url' => 'users/index')); ?>
+                    </div>
+
+                </div>
+            </div>                          
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <?php echo Form::open('users/nuevo/') ?>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+                <h4 class="modal-title">Nuevo Perfil de Usuario</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="col-md-6">
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Nombre</label>
+                                <?php echo Form::text('users.nombre', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Apellido</label>
+                                <?php echo Form::text('users.apellido', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Fono</label>
+                                <?php echo Form::text('users.fono', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Email</label>
+                                <?php echo Form::text('users.email', 'class="form-control" required') ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Privilegio</label>                                
+                                <?php echo Form::select('users.privilegio', array('ADMINISTRADOR' => 'ADMINISTRADOR', 'ADMIN_COMBUST' => 'ADMIN_COMBUST', 'ADMIN_ADQ' => 'ADMIN_ADQ', 'AD_TVO_COMBUST' => 'AD_TVO_COMBUST'), 'class="form-control"') ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Password</label>
+                                <?php echo Form::pass('users.pass', 'class="form-control" required') ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Horario</label>
+                                <?php echo Form::text('users.horario', 'class="form-control" required') ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-default btn-simple">Guardar</button>
+                <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Cerrar</button>
+            </div>
+            <?php echo Form::close() ?>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal-pass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <?php echo Form::open('users/password/') ?>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+                <h4 class="modal-title">Cambio de Contraseña</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="col-md-6">
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Ingrese Nueva Clave</label>
+                                <?php echo Form::pass('users.pass', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                                <?php echo Form::hidden('users.id', '', Auth::get('id')) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-default btn-simple">Guardar</button>
+                <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Cerrar</button>
+            </div>
+            <?php echo Form::close() ?>
+        </div>
+    </div>
+</div>

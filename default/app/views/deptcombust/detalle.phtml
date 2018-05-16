@@ -1,0 +1,108 @@
+<?php
+View::template('');
+$tlitros = 0;
+$tlasig = 0;
+$tlentreg = 0;
+?>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+        <i class="material-icons">clear</i>
+    </button>
+    <h4 class="modal-title">Solicitud Nº <?php echo $solicitud->id ?></h4>
+</div>
+<div class="modal-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="col-md-6">
+                    <h5 class="small"><strong>Unidad de Negocio: </strong> <?php echo $solicitud->getUnegocio()->nombre ?></h5>
+                    <h5 class="small"><strong>Fecha Solicitud: </strong> <?php echo $solicitud->fecha ?></h5>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="small"><strong>Solicitante: </strong> <?php echo $solicitud->getUsers()->nombre ?></h5>
+                    <h5 class="small"><strong>Fecha de Entrega: </strong> <?php echo $solicitud->fentrega ?></h5>
+                </div>
+            </div>                
+        </div>        
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">                
+                <div class="col-md-4">
+                    <h5 class="small"><strong>Estado: </strong><strong class="text-success"><?php echo $solicitud->estado ?></strong></h5>                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="title">
+            <h5 class="small"><strong>Detalle de Solicitud: </strong></h5>
+        </div>
+    </div>   
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Patente</th>
+                        <th>T. de Vehiculo</th>
+                        <th>Trabajo</th>
+                        <th>L. Solic</th>
+                        <th>L. Asig</th>
+                        <th>L. Entreg</th>
+                        <th>Nº Vale</th>
+                        <th>Firma</th> 
+                        <th>Anular</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($detalle as $listado): ?> 
+                        <tr>
+                            <td><?php echo $listado->getVehiculos()->patente ?></td>
+                            <td><?php echo $listado->getVehiculos()->getTvehiculos()->nombre ?></td>
+                            <td><?php echo $listado->trabajo ?></td>
+                            <td><?php echo $listado->litros ?></td>
+                            <td><?php echo $listado->lasignados ?></td>
+                            <td><?php echo $listado->lcargados ?></td>                            
+                            <td><?php echo $listado->nvale ?></td>
+                            <td><?php echo $listado->qrecibe ?></td>
+                            <td><?php if (Auth::get('privilegio') == 'ADMINISTRADOR' or Auth::get('privilegio') == 'ADMIN_COMBUST') { ?>
+                                <a rel="tooltip" title="Remover Patente" href="/deptcombust/anulaParcial/<?php echo $listado->id ?>" class="btn btn-danger btn-simple btn-xs">
+                                    <i class="fa fa-times"></i>
+                                </a>                            
+                            <?php }  else { ?>
+                                <a rel="tooltip" title="Bloqueada" href="#" class="btn btn-simple btn-xs">
+                                    <i class="material-icons">not_interested</i>
+                                </a>        
+                            <?php } ?></td>
+                        </tr>                        
+                        <?php
+                        $tlitros = $tlitros + $listado->litros;
+                        $tlasig = $tlasig + $listado->lasignados;
+                        $tlentreg = $tlentreg + $listado->lcargados;
+                    endforeach;
+                    ?>
+                </tbody>
+            </table>
+        </div>        
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">                
+                <div class="col-md-4">                    
+                    <h5 class="small"><strong>Total L. Solicitados: </strong><?php echo $tlitros ?></h5>
+                    <h5 class="small"><strong>Total L. Asignado: </strong><?php echo $tlasig ?></h5>                     
+                    <h5 class="small"><strong>Total L. Entregados: </strong><?php echo $tlentreg ?></h5>
+                </div>
+            </div>
+        </div>            
+    </div>
+</div>
+<div class="modal-footer">
+    <?php echo Form::open('deptcombust/solicitudpdf', 'post') ?>
+    <?php echo Form::hidden('solicitud.id', '', $solicitud->id) ?>     
+    <button type="submit" class="btn btn-default btn-round btn-xs">Imprimir</button>
+    <button type="button" class="btn btn-danger btn-round btn-xs" data-dismiss="modal">Cerrar</button>
+    <?php echo Form::close() ?>        
+</div>
+

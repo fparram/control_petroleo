@@ -1,0 +1,11 @@
+<?php
+View::template('');
+?>
+<tr class="<?php echo $patente->patente ?>">
+    <td><?php echo $patente->patente ?><br><label>Quedan:(<?php echo $litros == 0 ? 'Ilimitado' : $litros; ?>)</label><?php echo Form::hidden('patente.', '', $patente->id) ?><?php echo $litros == 0 ? Form::hidden('conteo.', '', 0) : Form::hidden('conteo.', '', $litros); ?></td>
+    <td style="width: 250px"><?php echo Form::dbSelect('trabajos.', 'nombre', array('trabajos', 'trabajosxpatente', $patente->id), '- seleccione -', 'class="form-control" required'); ?></td>
+    <td style="width: 100px"><?php echo Form::text('rinde.', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?></td>    
+    <td><?php echo Form::text('operador.', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?></td>
+    <td><?php echo Form::text('ubicacion.', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?></td>
+    <td class="text-center"><a title="Eliminar" href="#" id="<?php echo $patente->patente ?>" class="btn btn-danger btn-fab btn-fab-mini btn-round" onclick="deletPatente(this.id)"><i class="material-icons">clear</i></a></td>    
+</tr>

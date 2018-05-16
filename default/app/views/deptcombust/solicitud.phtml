@@ -1,0 +1,98 @@
+<?php
+if (Auth::get('privilegio') == 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+} else {
+    $style = 'margin-top: 130px';
+}
+?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>">            
+            <?php echo Form::open() ?>                
+            <?php View::content() ?>
+            <div class="container">
+                <div class="title">
+                    <h3>Crear Nueva Solicitud</h3>
+                </div>
+                <dl>
+                    <dd>Hora Servidor <?php echo date('H:i:s') ?></dd>
+                    <dd>Fecha Solicitud <?php echo date('d-m-Y') ?></dd>                               
+                </dl>
+            </div>                    
+            <div class="container">
+                <div class="col-md-6">
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Unidad de Negocio</label>
+                            <?php echo Form::dbSelect('solicitud.unegocio_id', 'nombre', array('unegocio', 'relacion', Auth::get('id')), '', 'class="form-control" required'); ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Fecha de Entrega</label>
+                            <?php echo Form::date('solicitud.fentrega', 'class="form-control" required', date('Y-m-d')) ?> 
+                        </div>
+                    </div>
+                    <?php echo Form::hidden('solicitud.users_id', '', Auth::get('id')) ?>  
+                    <?php echo Form::hidden('solicitud.accion', '', 'CREAR') ?>  
+                    <?php echo Form::hidden('solicitud.fmodif', '', date('d-m-Y')) ?>  
+                    <?php echo Form::hidden('solicitud.hmodif', '', date('H:i:s')) ?> 
+                    <?php echo Form::hidden('solicitud.fecha', '', date('d-m-Y')) ?> 
+                    <?php echo Form::hidden('solicitud.estado', '', 'EN PROCESO') ?>                    
+                </div>
+            </div>
+            <div class="container">
+                <div class="title">
+                    <h5>Detalle de Solicitud</h5>
+                </div>
+            </div>
+            <div class="container">
+                <div class="col-md-6">
+                    <div class="form-group label-floating has-success">
+                        <label class="control-label">Seleccione una Patente</label>
+                        <?php $ar2 = array(); ?>
+                        <?php foreach ($vehiculos as $vehiculos): ?>
+                            <?php
+                            $ar1 = array($vehiculos->id => $vehiculos->patente . " / " . $vehiculos->marca . " / " . $vehiculos->modelo);
+                            $ar2 = $ar2 + $ar1;
+                            ?>                                       
+                        <?php endforeach; ?>
+                        <?php echo Form::Select('detalle.vehiculos_id', $ar2, 'class="chosen-select" tabindex="1" style="width: 250px;" required') ?>
+                        <button type="button" class="btn btn-success btn-fab btn-fab-mini btn-round" id="add-patente">
+                            <i class="material-icons">add</i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Patente</th>
+                                    <th class="text-center" style="width: 250px">Trabajo</th>
+                                    <th class="text-center" style="width: 100px">KM/HRS</th>                                            
+                                    <th class="text-center">Operador</th>
+                                    <th class="text-center">Ubicacion</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detalle">                                            
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </div>
+            </div>               
+            <?php echo Form::close() ?>            
+        </div>
+    </div>    
+</div>

@@ -1,0 +1,46 @@
+<?php if (Auth::get('privilegio')== 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+}  else {
+    $style = 'margin-top: 130px';
+} ?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>">            
+            <?php echo Form::open('deptcombust/exportaRuta', 'post', 'TARGET="_blanc"') ?>
+            <?php View::content() ?>
+            <div class="container">
+                <div class="title">
+                    <h3>Genere la hoja de Ruta</h3>
+                </div>                
+            </div>                    
+            <div class="container">
+                <div class="col-md-6">
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Unidad de Negocio</label>
+                            <?php echo Form::dbSelect('ruta.id', 'nombre', array('camiones', 'surtidor'), '', 'class="form-control" required'); ?>                            
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Fecha de Entrega</label>
+                            <?php echo Form::date('ruta.fentrega', 'class="form-control" required', date('Y-m-d')) ?> 
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success btn-xs">Exportar</button>
+                </div>
+                
+            </div>                           
+            <?php echo Form::close() ?>            
+        </div>
+    </div>    
+</div>

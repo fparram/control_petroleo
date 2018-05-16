@@ -1,0 +1,59 @@
+<div class="wrapper">
+    <div class="header">
+
+    </div>
+    <div class="main main-raised">
+        <div class="container" style="margin-top: 40px">                           
+            <?php View::content() ?>
+            <div class="container">
+                <div class="title">
+                    <h3>Relacionar con Unidad de Negocio <?php echo $unegocio->nombre ?></h3>
+                </div>                
+            </div>
+            <div class="container">
+                <div class="table-responsive">
+                    <div class="col-md-8">                                                      
+                        <table id="relacion_user" class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                    <th>Relacion</th>                                                
+                                </tr>
+                            </thead>
+                            <tbody>                                            
+                                <?php
+                                foreach ($page as $listado):
+                                    $flag = 0;
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $listado->id ?></td>
+                                        <td><?php echo $listado->nombre ?></td>
+                                        <td>
+                                            <div class="togglebutton">
+                                                <label>
+                                                    <?php if ($rela == FALSE) { ?>
+                                                        <input type="checkbox" id="<?php echo $listado->id ?>" value="<?php echo $unegocio->id ?>" onchange="Une(this.checked, this.id, this.value)">                                                                    
+                                                        <?php
+                                                    } else {
+                                                        foreach ($rela as $Une):
+                                                            if ($listado->id == $Une->ccosto_id) {
+                                                                $flag = $Une->id;
+                                                            }
+                                                        endforeach;
+                                                        echo $flag != 0 ? '<input type="checkbox" id="' . $flag . '" value="0" checked="" onchange="Une(this.checked, this.id, this.value)">' : '<input type="checkbox" id="' . $listado->id . '" value="' . $unegocio->id . '" onchange="Une(this.checked, this.id, this.value)">';
+                                                    }
+                                                    ?>
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr> 
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>                                
+                    </div>
+                </div>
+            </div>                
+        </div>
+    </div>    
+</div>

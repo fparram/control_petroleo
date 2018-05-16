@@ -1,0 +1,45 @@
+<?php
+
+header('Content-Type: application/vdn.ms-excel');
+header('Content-Disposition: attachment; filename=List_xtracker.xls');
+
+Load::lib('PHPExcel');
+
+$excel = new PHPExcel();
+
+$excel->getProperties()->setCreator('SantaFe')->setLastModifiedBy('SantaFe')->setTitle('Reporte');
+
+$excel->setActiveSheetIndex(0);
+
+$pagina = $excel->getActiveSheet();
+
+$pagina->setTitle('Reporte');
+
+$pagina->setCellValue('A1','Desde');
+$pagina->setCellValue('B1','Hasta');
+$pagina->setCellValue('C1','KM Recorridos');
+$pagina->setCellValue('D1','Velocidad Max');
+$pagina->setCellValue('E1','Lugar de Inicio');
+$pagina->setCellValue('F1','Lugar de Termino');
+
+$pagina->getStyle('A1:F1')->getFont()->setBold(TRUE);
+$pagina->getStyle('A1:F1')->getFont()->setSize(12);
+
+$i = 1;
+foreach ($listado['data'] as $item):
+    $i++;
+    $pagina->setCellValue('A'.$i, $item['start_date']);       
+    $pagina->setCellValue('B'.$i, $item['end_date']);
+    $pagina->setCellValue('C'.$i, $item['length']);        
+    $pagina->setCellValue('D'.$i, $item['max_speed']);
+    $pagina->setCellValue('E'.$i, $item['start_address']);
+    $pagina->setCellValue('F'.$i, $item['end_address']);       
+endforeach;
+
+foreach (range('A', 'F') as $column):
+    $pagina->getColumnDimension($column)->setAutoSize(TRUE);
+endforeach;
+
+
+$objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+$objWriter->save('php://output');

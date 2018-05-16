@@ -1,0 +1,47 @@
+<?php
+
+header('Content-Type: application/vdn.ms-excel');
+header('Content-Disposition: attachment; filename=List_general.xls');
+
+Load::lib('PHPExcel');
+
+$excel = new PHPExcel();
+
+$excel->getProperties()->setCreator('SantaFe')->setLastModifiedBy('SantaFe')->setTitle('Reporte');
+
+$excel->setActiveSheetIndex(0);
+
+$pagina = $excel->getActiveSheet();
+
+$pagina->setTitle('Reporte');
+
+$pagina->setCellValue('A1','ID');
+$pagina->setCellValue('B1','Patente');
+$pagina->setCellValue('C1','KM Recorridos');
+
+
+$pagina->getStyle('A1:C1')->getFont()->setBold(TRUE);
+$pagina->getStyle('A1:C1')->getFont()->setSize(12);
+
+$i = 1;
+$total = 0;
+foreach ($patentes['data'] as $item):
+    $i++;
+    $patente = $item['patente'];
+    $pagina->setCellValue('A'.$i, $item['id']);       
+    $pagina->setCellValue('B'.$i, $item['patente']);
+    foreach ($listado["$patente"] as $item1):
+        if ($item1['type'] == 'regular') {
+            $total = $total+$item1['length'];
+        }
+    endforeach;
+    $pagina->setCellValue('C'.$i, $total);
+endforeach;
+
+foreach (range('A', 'C') as $column):
+    $pagina->getColumnDimension($column)->setAutoSize(TRUE);
+endforeach;
+
+
+$objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+$objWriter->save('php://output');

@@ -1,0 +1,65 @@
+<?php
+if (Auth::get('privilegio') == 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+} else {
+    $style = 'margin-top: 130px';
+}
+?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>">            
+            <?php View::content() ?>
+            <div class="container">
+                <div class="title">
+                    <h3>Exportacion de Informes</h3>
+                </div>                
+            </div>                    
+            <div class="container">
+                <div class="row">                    
+                    <div class="col-sm-3">
+                        <?php echo Form::open('gps/listaxtracker_id') ?>
+                        <div class="title">
+                            <h5>Por Patente</h5>
+                        </div> 
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Patentes</label>
+                            <?php echo Form::select('consulta.id', $tracker_list_id, 'class="chosen-select" required'); ?>                            
+                        </div>
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Desde</label>
+                            <?php echo Form::date('consulta.desde', 'class="form-control" required', date('Y-m-d')) ?> 
+                        </div>
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Hasta</label>
+                            <?php echo Form::date('consulta.hasta', 'class="form-control" required', date('Y-m-d')) ?> 
+                        </div>
+                        <button type="submit" class="btn btn-success btn-xs">Buscar</button>
+                        <?php echo Form::close() ?>
+                    </div>
+                    <div class="col-sm-3">
+                        <?php echo Form::open('gps/lista_general') ?>
+                        <div class="title">
+                            <h5>Por Rango de Fechas</h5>
+                        </div>                         
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Desde</label>
+                            <?php echo Form::date('consulta.desde', 'class="form-control" required', date('Y-m-d')) ?> 
+                        </div>
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Hasta</label>
+                            <?php echo Form::date('consulta.hasta', 'class="form-control" required', date('Y-m-d')) ?> 
+                        </div>
+                        <button type="submit" class="btn btn-success btn-xs">Buscar</button>
+                        <?php echo Form::close() ?>
+                    </div>
+                </div>                              
+            </div>                                                  
+        </div>
+    </div>    
+</div>

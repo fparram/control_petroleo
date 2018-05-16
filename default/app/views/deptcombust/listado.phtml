@@ -1,0 +1,45 @@
+<div class="table-responsive">
+                    <div class="col-md-11">
+                        <?php if (count($page->items) > 0) { ?>                        
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>U. de Negocio</th>
+                                        <th>F. Solicitud</th>
+                                        <th>F. Entrega</th>
+                                        <th>Solicitante</th>
+                                        <th>Estado</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($page->items as $listado): ?> 
+                                        <tr>
+                                            <td><?php echo $listado->id ?></td>
+                                            <td><?php echo $listado->getUnegocio()->nombre ?></td>
+                                            <td><?php echo $listado->fecha ?></td>
+                                            <td><?php echo $listado->fentrega ?></td>
+                                            <td><?php echo $listado->getUsers()->nombre ?></td>
+                                            <td><?php echo $listado->estado ?></td>
+                                            <td class="td-actions text-right">
+                                                <button type="button" rel="tooltip" data-id="<?php echo $listado->id ?>" title="Cambiar Clave" class="btn btn-info btn-simple btn-xs open-Modal-pass" data-toggle="modal" data-target="#myModal-pass">
+                                                    <i class="fa fa-key"></i>
+                                                </button>
+                                                <a rel="tooltip" title="Editar Perfil" href="/users/editar/<?php echo $listado->id ?>" class="btn btn-success btn-simple btn-xs">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>                                               
+                                                <a rel="tooltip" title="Remover Perfil " href="/users/eliminar/<?php echo $listado->id ?>" class="btn btn-danger btn-simple btn-xs">
+                                                    <i class="fa fa-times"></i>
+                                                </a>                                            
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php } else { ?>
+                            <h2>No hay ningún registro</h2>
+                        <?php } ?>
+                        <?php View::partial('paginators/classic', false, array('page' => $page, 'url' => 'deptcombust/listado')); ?>
+                    </div>
+                </div>

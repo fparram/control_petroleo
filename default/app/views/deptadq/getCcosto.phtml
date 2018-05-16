@@ -1,0 +1,22 @@
+<?php echo Form::dbSelect('solicitud.ccosto_id', 'nombre', array('ccosto', 'findByCcosto', $unegocio_id), '- Seleccione -', 'class="chosen-select" required'); ?>
+<script>
+    $(document).ready(function () {
+        $(".chosen-select").chosen();
+
+    });
+    $(document).ready(function () {
+        $("#solicitud_ccosto_id").change(function () {
+            var ccosto_id = $('#solicitud_ccosto_id').val();
+
+            $.ajax({
+                type: "POST",
+                url: "getItems",
+                data: "ccosto_id=" + ccosto_id,
+                success: function (html) {
+                    $("#div_items").html(html);
+                    $("#div_items").focus;
+                }
+            });
+        });
+    });
+</script>

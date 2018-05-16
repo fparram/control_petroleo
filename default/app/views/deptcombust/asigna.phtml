@@ -1,0 +1,79 @@
+<?php if (Auth::get('privilegio')== 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+}  else {
+    $style = 'margin-top: 130px';
+} ?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>"> 
+            <?php echo Form::open() ?>
+            <div class="container">               
+                <div class="title">
+                    <h3>Asignar litros a:</h3>
+                </div>                             
+            </div>
+            <div class="container">
+                <div class="col-md-8">                    
+                    <dl>
+                        <dd>Nº: <?php echo $solicitud->id ?></dd>
+                        <dd>Unidad de Negocio: <?php echo $solicitud->getUnegocio()->nombre ?></dd>
+                        <dd>Fecha Creacion: <?php echo $solicitud->fecha ?></dd>
+                        <dd>Hora Creacion: <?php echo $solicitud->hmodif ?></dd>
+                        <dd><?php echo Form::hidden('solicitud.id', '', $solicitud->id) ?></dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="container" style="padding-top: 40px">
+                <div class="table-responsive">
+                    <div class="col-md-12">
+                        <?php if (count($page) > 0) { ?>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Patente</th>
+                                        <th>Tp. Vehiculo</th>
+                                        <th>Operador</th>
+                                        <th>Trabajo</th>
+                                        <th>Ubicacion</th>
+                                        <th>L. Solic</th>
+                                        <th>L. Asign</th>
+                                        <th><?php echo Form::dbSelect('surtidores', 'nombre', array('camiones', 'surtidor'), '- Seleccione Surtidor -', 'class="surtidores"'); ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($page as $listado): ?> 
+                                        <tr>
+                                            <td><?php echo $listado->getVehiculos()->patente ?></td>
+                                            <td><?php echo $listado->getVehiculos()->getTvehiculos()->nombre ?></td>                                            
+                                            <td><?php echo $listado->operador ?></td>
+                                            <td><?php echo $listado->trabajo ?></td>
+                                            <td><?php echo $listado->ubicacion ?></td>
+                                            <td><?php echo $listado->litros ?></td>
+                                            <td><?php echo $listado->lasignados == null ? Form::text('lasignados.', 'style="width: 45px"', $listado->litros) : Form::text('lasignados.', 'style="width: 45px"', $listado->lasignados) ?></td>
+                                            <td><?php echo Form::dbSelect('camiones_id.', 'nombre', array('camiones', 'surtidor'), '', 'class="surtidor" required'); ?>
+                                            <?php echo Form::hidden('id.', '', $listado->id) ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php } else { ?>
+                            <h2>No hay ningún registro</h2>
+                        <?php } ?>                        
+                    </div>
+                </div>
+                <div class="row-content text-right">
+                    <button type="submit" class="btn btn-success btn-sm btn-round">Guardar</button>
+                </div>
+                
+            </div>
+            <?php echo Form::close() ?>
+        </div>
+    </div>
+</div>

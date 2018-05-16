@@ -1,0 +1,75 @@
+<?php
+$libro = new Spreadsheet_Excel_Writer();
+
+$hoja1 = $libro->addWorksheet("Hoja1");
+
+$hoja1->setInputEncoding('utf-8');
+
+$negrita =& $libro->addFormat();
+$negrita->setBold();
+
+$hoja1->write(0, 0, "Nº", $negrita);
+$hoja1->write(0, 1, "U. Negocio", $negrita);
+$hoja1->write(0, 2, "F. Solicitud", $negrita);
+$hoja1->write(0, 3, "F. Entrega", $negrita);
+$hoja1->write(0, 4, "Patente", $negrita);
+$hoja1->write(0, 5, "Vehiculo", $negrita);
+$hoja1->write(0, 6, "Operador", $negrita);
+$hoja1->write(0, 7, "Ubicacion", $negrita);
+$hoja1->write(0, 8, "Trabajo", $negrita);
+$hoja1->write(0, 9, "L. Solicitados", $negrita);
+$hoja1->write(0, 10, "L. Asignados", $negrita);
+$hoja1->write(0, 11, "L. Cargados", $negrita);
+$hoja1->write(0, 12, "Carga", $negrita);
+$hoja1->write(0, 13, "Surtidor", $negrita);
+$hoja1->write(0, 14, "F. de Carga", $negrita);
+$hoja1->write(0, 15, "Nº Vale", $negrita);
+$hoja1->write(0, 16, "Horometro", $negrita);
+$hoja1->write(0, 17, "Receptor", $negrita);
+
+$row = 1;
+
+foreach ($busqueda as $items):
+    $hoja1->write($row, 0, $items->solicitud_id);
+    foreach ($unegocio as $items1):
+        if ($items->unegocio_id == $items1->id) {
+            $hoja1->write($row, 1, $items1->nombre);
+        }
+    endforeach;
+    $hoja1->write($row, 2, $items->fecha);
+    $hoja1->write($row, 3, $items->fentrega);
+    foreach ($vehiculos2 as $items4):
+        if ($items->vehiculos_id == $items4->id) {
+            $hoja1->write($row, 1, $items4->patente);
+        }
+    endforeach;    
+    $hoja1->write($row, 1, $items->fecha);
+    foreach ($vehiculos as $items2):
+        if ($items->patente == $items2->patente) {
+            $hoja1->write($row, 1, $items2->marca . " " . $items2->modelo);
+        }
+    endforeach;
+    $hoja1->write($row, 1, $items->operador);
+    $hoja1->write($row, 1, $items->ubicacion);
+    $hoja1->write($row, 1, $items->trabajo);
+    $hoja1->write($row, 1, $items->litros);
+    $hoja1->write($row, 1, $items->lasignacios);
+    $hoja1->write($row, 1, $items->lcargados);
+    if ($items->carga == 0) {
+        $hoja1->write($row, 1, "Cargado");        
+    }else{
+        $hoja1->write($row, 1, "No Cargado"); 
+    }
+    foreach ($camiones as $items3):
+        if ($items->camiones_id == $items3->id) {
+            $hoja1->write($row, 1, $items3->marca . " " . $items3->modelo);
+        }
+    endforeach;
+    $hoja1->write($row, 1, $items->frentrega);
+    $hoja1->write($row, 1, $items->nvale);
+    $hoja1->write($row, 1, $items->hactual);
+    $hoja1->write($row, 1, $items->qrecibe);
+    $row++;
+endforeach;
+$libro->send("Libro1.xls");
+$libro->close();

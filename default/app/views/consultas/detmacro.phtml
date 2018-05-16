@@ -1,0 +1,124 @@
+<div class="wrapper">   
+    <div class="header">
+    </div>    
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>">            
+            <?php View::content() ?>
+            <div class="container">
+                <div class="col-md-3">
+                    <img src="/img/material-kit/logo_1.png" alt="Inversiones Santa Fe" rel="tooltip" title="<b>ERP Holding Santa Fe</b> facilitado por Inversiones Santa Fe S.A.</b>" data-placement="bottom" data-html="true">
+                </div>
+                <div class="col-md-9">
+                    <div class="title text-center">
+                        <h3>Informe General de Patentes por Macrotipo</h3>
+                    </div>
+                </div>                                
+            </div>            
+            <div class="container ">
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <div id="capa1">
+                            <h5>Consumos de patentes en los ultimos tres meses, mas el consumo a la fecha de hoy.</h5>
+                            <?php
+                            $total1 = 0;
+                            $total2 = 0;
+                            $total3 = 0;
+                            $total4 = 0;
+
+                            $flag = 0;
+                            if (count($patentes) > 0) {
+                                ?>                       
+                                <table class="table table-bordered">                                    
+                                    <thead>
+                                        <tr>
+                                            <th>Patente</th>
+                                            <th>T. Vehiculo</th>
+                                            <th><?php echo $nm3 ?></th>
+                                            <th><?php echo $nm2 ?></th>
+                                            <th><?php echo $nm1 ?></th>   
+                                            <th>A la Fecha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($patentes as $listado): ?> 
+                                            <tr> 
+                                                <td><?php echo $listado->patente ?></td>
+                                                <td><?php echo $listado->nombre ?></td>
+                                                <?php foreach ($mes3 as $listado1): ?>
+                                                    <?php
+                                                    if ($listado->patente == $listado1->patente) {
+                                                        $flag = 1;
+                                                        ?>
+                                                        <td><?php echo $listado1->litros ?></td>
+                                                    <?php } ?>
+                                                <?php endforeach; ?>
+                                                <?php
+                                                if ($flag == 1) {
+                                                    $flag = 0;
+                                                    ?>
+                                                <?php } else { ?>
+                                                    <td>-</td>
+                                                <?php } ?>
+                                                <?php foreach ($mes2 as $listado2): ?>
+                                                    <?php
+                                                    if ($listado->patente == $listado2->patente) {
+                                                        $flag = 1;
+                                                        ?>
+                                                        <td><?php echo $listado2->litros ?></td>
+                                                    <?php } ?>
+                                                <?php endforeach; ?>
+                                                <?php
+                                                if ($flag == 1) {
+                                                    $flag = 0;
+                                                    ?>
+                                                <?php } else { ?>
+                                                    <td>-</td>
+                                                <?php } ?>
+                                                <?php foreach ($mes1 as $listado3): ?>                                                                
+                                                    <?php
+                                                    if ($listado->patente == $listado3->patente) {
+                                                        $flag = 1;
+                                                        ?>
+                                                        <td><?php echo $listado3->litros ?></td>
+                                                    <?php } ?>                                
+                                                <?php endforeach; ?>
+                                                <?php
+                                                if ($flag == 1) {
+                                                    $flag = 0;
+                                                    ?>
+                                                <?php } else { ?>
+                                                    <td>-</td>
+                                                <?php } ?>
+                                                <?php foreach ($actual as $listado4): ?>
+                                                    <?php
+                                                    if ($listado->patente == $listado4->patente) {
+                                                        $flag = 1;
+                                                        ?>
+                                                        <td><?php echo $listado4->litros ?></td>
+                                                    <?php } ?>
+                                                <?php endforeach; ?>
+                                                <?php
+                                                if ($flag == 1) {
+                                                    $flag = 0;
+                                                    ?>
+                                                <?php } else { ?>
+                                                    <td>-</td>
+                                                <?php } ?>
+                                            </tr>
+                                        <?php endforeach; ?>
+
+                                    </tbody>
+                                </table>
+                            <?php } else { ?>
+                                <h2>No hay ningún registro</h2>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>               
+            </div>                        
+        </div>
+    </div>    
+</div>
+<script>
+    window.print();
+</script>

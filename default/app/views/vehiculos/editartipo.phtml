@@ -1,0 +1,49 @@
+<?php
+if (Auth::get('privilegio') == 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+} else {
+    $style = 'margin-top: 130px';
+}
+?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>"> 
+            <?php echo Form::open() ?>
+            <?php echo Form::hidden('tvehiculos.id') ?>
+            <div class="container">
+                <div class="title">
+                    <h3>Editar Tipo de Vehiculo</h3>
+                </div>                               
+            </div>
+            <div class="container">                
+                <div class="col-md-6">
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Nombre</label>
+                            <?php echo Form::text('tvehiculos.nombre', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">T. de Vehiculo</label>
+                            <?php echo Form::dbSelect('tvehiculos.macrotipo_id', 'nombre', array('macrotipo', 'find'), '', 'class="form-control" required'); ?>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+            <div class="container">
+                <button type="submit" class="btn btn-success btn-round">Guardar</button>
+                <?php echo '<a href="' . PUBLIC_PATH . 'vehiculos/tvehiculos/" class="btn btn-default btn-round">Cancelar</a>'; ?>                
+            </div>
+            <?php echo Form::close() ?>
+        </div>
+    </div>
+
+</div>   
+

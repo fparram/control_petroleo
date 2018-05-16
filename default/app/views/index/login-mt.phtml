@@ -1,0 +1,46 @@
+<div class="section section-full-screen section-signup" style="background-image: url('/img/material-kit/carretera.jpg'); background-size: cover; background-position: top center; min-height: 700px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="card card-signup">
+                    <?php echo Form::open(null,'post');?>
+                        <div class="header header-info text-center">
+                            <h4>ERP-SantaFe</h4>                            
+                        </div>
+                    <?php View::content() ?>
+                        <p class="text-divider">Ingrese datos de Acceso</p>                        
+                        <div class="content"> 
+                            
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">email</i>
+                                </span>
+                                <input type="text" class="form-control" name="email" autofocus placeholder="Email...">
+                            </div>
+
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">lock_outline</i>
+                                </span>
+                                <input type="password" name="pass" placeholder="Password..." class="form-control" />
+                            </div>                          
+                            <div class="checkbox">
+                                <label>
+                                    <input class="has-info" type="checkbox" name="optionsCheckboxes" checked>
+                                    Recordar
+                                </label>
+                            </div> 
+                             
+                        </div>
+                        <div class="footer text-center">
+                            <?php echo Form::submit('Iniciar Sesión','class="btn btn-simple btn-info btn-lg"')?>                            
+                        </div>
+                    <?php echo Form::close();?>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

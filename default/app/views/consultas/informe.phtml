@@ -1,0 +1,158 @@
+<?php
+$data1[] = array("y" => $nm3, "a" => $totales1->litros);
+$data1[] = array("y" => $nm2, "a" => $totales2->litros);
+$data1[] = array("y" => $nm1, "a" => $totales3->litros);
+if ($totales4->litros == null) {
+    $data1[] = array("y" => 'hoy', "a" => 0);
+} else {
+    $data1[] = array("y" => 'hoy', "a" => $totales4->litros);
+}
+
+$total1 = 0;
+$total2 = 0;
+$total3 = 0;
+$total4 = 0;
+?>
+
+<div class="wrapper">   
+    <div class="header">
+    </div>    
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>">            
+            <?php View::content() ?>
+            <div class="container">
+                <div class="col-md-3">
+                    <img src="/img/material-kit/logo_1.png" alt="Inversiones Santa Fe" rel="tooltip" title="<b>ERP Holding Santa Fe</b> facilitado por Inversiones Santa Fe S.A.</b>" data-placement="bottom" data-html="true">
+                </div>
+                <div class="col-md-9">
+                    <div class="title text-center">
+                    <h3>Informe General consumo de Combustible</h3>
+                </div>
+                </div>                                
+            </div>            
+            <div class="container ">
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <div id="capa1">
+                            <h5>Consumos por flota en los ultimos tres meses, mas el consumo a la fecha de hoy.</h5>
+                            <?php if (count($page1) > 0) { ?>                        
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>T. Vehiculo</th>
+                                            <th><?php echo $nm3 ?></th>
+                                            <th><?php echo $nm2 ?></th>
+                                            <th><?php echo $nm1 ?></th> 
+                                            <th>A la Fecha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach ($page1 as $listado):
+                                            $total1 = $total1 + $listado->litros;
+                                            ?> 
+                                            <tr>                                            
+                                                <td><?php echo '<a rel="tooltip" title="Ver Detalle" href="#" data-id="' . $listado->id . '" class="text-success open-Modal-detMacro1" data-toggle="modal" data-target="#myModal-detMacro">
+                                                            ' . $listado->nombre . '</a>' ?></td>
+                                                <td><?php echo number_format($listado->litros) ?></td>
+                                                <?php foreach ($page2 as $listado2): ?>
+                                                    <?php
+                                                    if ($listado->nombre == $listado2->nombre) {
+                                                        $total2 = $total2 + $listado2->litros;
+                                                        ?>
+                                                        <td><?php echo number_format($listado2->litros) ?></td>
+                                                    <?php } ?>
+                                                <?php endforeach; ?>
+                                                <?php foreach ($page3 as $listado3): ?>
+                                                    <?php
+                                                    if ($listado->nombre == $listado3->nombre) {
+                                                        $data[] = (object) array("label" => $listado3->nombre, "value" => $listado3->litros);
+                                                        $total3 = $total3 + $listado3->litros;
+                                                        ?>
+                                                        <td><?php echo number_format($listado3->litros) ?></td>
+                                                    <?php } ?>
+                                                <?php endforeach; ?>
+                                                <?php foreach ($page4 as $listado4): ?>
+                                                    <?php
+                                                    if ($listado->nombre == $listado4->nombre) {
+                                                        $total4 = $total4 + $listado4->litros;
+                                                        ?>
+                                                        <td><?php echo number_format($listado4->litros) ?></td>
+                                                    <?php } ?>
+                                                <?php endforeach; ?>                                                        
+                                            </tr>
+                                        <?php endforeach; ?>
+                                        <tr>
+                                            <td>Totales</td>
+                                            <td><?php echo number_format($total1) ?></td>
+                                            <td><?php echo number_format($total2) ?></td>
+                                            <td><?php echo number_format($total3) ?></td>
+                                            <td><?php echo number_format($total4) ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            <?php } else { ?>
+                                <h2>No hay ningún registro</h2>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="text-center"><strong>Total de Consumos</strong></h3>
+                    <div class="row" id="bar-chart" style="height: 300px; align-content: center"></div>
+                    <h5>Totales de litros cargados los ultimos 3 meses.</h5>
+                </div>
+            </div>
+            <div class="container">
+                <div class="title">
+                    <h3>Detalle de Unidades de Negocio</h3>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <?php if (count($page1) > 0) { ?>                        
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Unidad de Negocio</th>                                        
+                                        <th><?php echo $nm2 ?></th>
+                                        <th><?php echo $nm1 ?></th> 
+                                        <th>Diferen.</th>                                        
+                                        <th>#</th>
+                                        <th>Actual</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($lisune1 as $item1): ?> 
+                                        <tr>                                            
+                                            <td><?php echo $item1->nombre ?></td>
+                                            <td><?php echo number_format($item1->litros) ?></td>
+                                            <?php foreach ($lisune2 as $item2): ?>
+                                                <?php if ($item1->nombre == $item2->nombre) { ?>
+                                                    <td><?php echo number_format($item2->litros) ?></td>
+                                                    <td><?php echo number_format($item2->litros - $item1->litros) ?></td>
+                                                    <td><?php echo $item1->litros > $item2->litros ? '<i class="material-icons" style="color: #00c853">file_download</i>' : '<i class="material-icons" style="color: #D8000C">file_upload</i>' ?></td>
+                                                <?php } ?>
+                                            <?php endforeach; ?>
+                                            <?php foreach ($lisune3 as $item3): ?>
+                                                <?php if ($item1->nombre == $item3->nombre) { ?>
+                                                    <td><?php echo number_format($item3->litros) ?></td>
+                                                <?php } ?>
+                                            <?php endforeach; ?>                                            
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php } else { ?>
+                            <h2>No hay ningún registro</h2>
+                        <?php } ?>
+                    </div>
+                </div>
+                
+            </div>            
+        </div>
+    </div>    
+</div>
+<script>    
+    window.print();    
+</script>

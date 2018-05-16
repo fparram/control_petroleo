@@ -1,0 +1,100 @@
+<?php
+if (Auth::get('privilegio') == 'ADMINISTRADOR') {
+    View::partial('menu-adq');
+    $style = 'margin-top: 130px';
+} else {
+    $style = 'margin-top: 130px';
+}
+?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>">            
+            <?php echo Form::open() ?>                
+            <?php View::content() ?>
+            <div class="container">
+                <div class="title">
+                    <h3>Crear Nueva Solicitud</h3>
+                </div>
+                <dl>
+                    <dd>Hora Servidor <?php echo date('H:i:s') ?></dd>
+                    <dd>Fecha Solicitud <?php echo date('d-m-Y') ?></dd>                               
+                </dl>
+            </div>                    
+            <div class="container">
+                <div class="col-md-10">
+                    <div class="col-sm-4">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Unidad de Negocio</label>
+                            <?php echo Form::dbSelect('solicitud.unegocio_id', 'nombre', array('unegocio', 'relacion', Auth::get('id')), '- Seleccione -', 'class="chosen-select" required'); ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Centro de Costo</label>
+                            <div id="div_ccosto">
+                                <?php echo Form::select('solicitud.ccosto_id', array('' => '- Seleccione -'), 'class="chosen-select" required') ?>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Item</label>
+                            <div id="div_items">
+                                <?php echo Form::select('solicitud.items_id', array('' => '- Seleccione -'), 'class="chosen-select" required') ?>
+                            </div> 
+                        </div>
+                    </div>                    
+                    <?php echo Form::hidden('solicitud.users_id', '', Auth::get('id')) ?>  
+                    <?php echo Form::hidden('solicitud.accion', '', 'CREAR') ?>  
+                    <?php echo Form::hidden('solicitud.fmodif', '', date('d-m-Y')) ?>  
+                    <?php echo Form::hidden('solicitud.hmodif', '', date('H:i:s')) ?> 
+                    <?php echo Form::hidden('solicitud.fecha', '', date('d-m-Y')) ?> 
+                    <?php echo Form::hidden('solicitud.estado', '', 'EN PROCESO') ?>                    
+                </div>
+            </div>
+            <div class="container">
+                <div class="title">
+                    <h5>Detalle de Solicitud</h5>
+                </div>
+            </div>
+            <div class="container">
+                <div class="col-md-6">
+                    <div class="form-group label-floating has-success">
+                        <label class="control-label">Seleccione un Producto</label>                        
+                        <?php echo Form::dbSelect('detalle.productos_id', 'nombre', array('productos', 'find'), '', 'class="chosen-select" required'); ?>
+                        <button type="button" class="btn btn-success btn-xs btn-round" id="add-producto">
+                            <i class="material-icons">add</i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 200px">Producto</th>
+                                    <th class="text-center" style="width: 50px">Cantidad</th>
+                                    <th class="text-center" style="width: 50px">U. Medida</th>                                            
+                                    <th class="text-center" style="width: 250px">Observacion</th>                                    
+                                    <th class="text-center" style="width: 50px">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detalle">                                            
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+                </div>
+            </div>               
+            <?php echo Form::close() ?>            
+        </div>
+    </div>    
+</div>

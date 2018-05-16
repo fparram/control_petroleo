@@ -1,0 +1,90 @@
+<?php
+if (Auth::get('privilegio') == 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+} else {
+    $style = 'margin-top: 130px';
+}
+?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>"> 
+            <?php echo Form::open() ?>
+            <?php echo Form::hidden('vehiculos.id') ?>
+            <div class="container">
+                <div class="title">
+                    <h3>Editar Tipo de Vehiculo</h3>
+                </div>                               
+            </div>
+            <div class="container">                
+                <div class="col-md-6">
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Patente</label>
+                            <?php echo Form::text('vehiculos.patente', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Marca</label>
+                            <?php echo Form::text('vehiculos.marca', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                        </div>
+                    </div>   
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Modelo</label>
+                            <?php echo Form::text('vehiculos.modelo', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">T. de Vehiculo</label>
+                            <?php echo Form::dbSelect('vehiculos.tvehiculos_id', 'nombre', array('tvehiculos', 'find'), '', 'class="form-control" required'); ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Rendimiento</label>
+                            <?php echo Form::text('vehiculos.rinde', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Propietario</label>
+                            <?php echo Form::dbSelect('vehiculos.propietario_id', 'nombre', array('propietario', 'find'), '', 'class="form-control" required'); ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">% Extra</label>
+                            <?php echo Form::text('vehiculos.delta', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">T. de Marcador</label>
+                            <?php echo Form::select('vehiculos.tmarcador', array('HRS' => 'HRS', 'KM' => 'KM'), 'class="form-control" required') ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Limite</label>
+                            <?php echo Form::text('vehiculos.limite', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <button type="submit" class="btn btn-success btn-round">Guardar</button>
+                <?php echo '<a href="' . PUBLIC_PATH . 'vehiculos/" class="btn btn-default btn-round">Cancelar</a>'; ?>                
+            </div>
+            <?php echo Form::close() ?>
+        </div>
+    </div>
+
+</div>   

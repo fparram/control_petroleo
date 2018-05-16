@@ -1,0 +1,65 @@
+<?php
+View::template('');
+
+$flag = 0;
+?>
+
+
+<?php foreach ($patentes as $listado): ?> 
+    <tr> 
+        <td><?php echo $listado->patente ?></td>
+        <td><?php echo $listado->nombre ?></td>
+        <?php foreach ($mes3 as $listado1): ?>
+            <?php if ($listado->patente == $listado1->patente) {
+                $flag = 1;
+                ?>
+                <td><?php echo $listado1->litros ?></td>
+            <?php } ?>
+        <?php endforeach; ?>
+        <?php if ($flag == 1) {
+            $flag = 0;
+            ?>
+        <?php } else { ?>
+            <td>-</td>
+        <?php } ?>
+        <?php foreach ($mes2 as $listado2): ?>
+            <?php if ($listado->patente == $listado2->patente) {
+                $flag = 1;
+                ?>
+                <td><?php echo $listado2->litros ?></td>
+            <?php } ?>
+        <?php endforeach; ?>
+        <?php if ($flag == 1) {
+            $flag = 0;
+            ?>
+        <?php } else { ?>
+            <td>-</td>
+        <?php } ?>
+        <?php foreach ($mes1 as $listado3): ?>                                                                
+            <?php if ($listado->patente == $listado3->patente) {
+                $flag = 1;
+                ?>
+                <td><?php echo $listado3->litros ?></td>
+            <?php } ?>                                
+        <?php endforeach; ?>
+        <?php if ($flag == 1) {
+            $flag = 0;
+            ?>
+        <?php } else { ?>
+            <td>-</td>
+        <?php } ?>
+        <?php foreach ($actual as $listado4): ?>
+            <?php if ($listado->patente == $listado4->patente) {
+                $flag = 1;
+                ?>
+                <td><?php echo $listado4->litros ?></td>
+        <?php } ?>
+    <?php endforeach; ?>
+    <?php if ($flag == 1) {
+        $flag = 0;
+        ?>
+    <?php } else { ?>
+            <td>-</td>
+    <?php } ?>
+    </tr>
+<?php endforeach; ?>

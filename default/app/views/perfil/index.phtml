@@ -1,0 +1,68 @@
+<?php if (Auth::get('privilegio')== 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+}  else {
+    $style = 'margin-top: 130px';
+} ?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        
+            <div class="container" style="<?php echo $style ?>"> 
+                <div class="row">
+                    <?php View::content() ?>
+                    <div class="container">
+                        <div class="title">
+                            <h3>Perfil: <?php echo $perfil->nombre . " " . $perfil->apellido; ?></h3>
+                        </div>                                               
+                    
+                    <h5>Email: <?php echo $perfil->email ?></h5>
+                    <h5>Privilegio: <?php echo $perfil->privilegio ?></h5>
+                    <h5>Fono: <?php echo $perfil->fono ?></h5>
+                    <h5>Cambiar Clave:<button type="button" rel="tooltip" data-id="<?php echo $perfil->id ?>" title="Cambiar Clave" class="btn btn-info btn-simple btn-xs open-Modal-pass" data-toggle="modal" data-target="#myModal-pass" onclick="verDatos(this.id);">
+                            <i class="fa fa-key"></i>
+                        </button></h5>
+                    </div>
+                    <div class="container">
+
+                    </div>
+                </div>
+            </div>
+       
+    </div>    
+</div>
+<div class="modal fade" id="myModal-pass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <?php echo Form::open('users/password/') ?>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+                <h4 class="modal-title">Cambio de Contraseña</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="col-md-6">
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Ingrese Nueva Clave</label>
+                                <?php echo Form::pass('users.pass', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                                <?php echo Form::hidden('users.id', '', Auth::get('id')) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-default btn-simple">Guardar</button>
+                <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Cerrar</button>
+            </div>
+            <?php echo Form::close() ?>
+        </div>
+    </div>
+</div>

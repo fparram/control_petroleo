@@ -1,0 +1,76 @@
+<?php
+if (Auth::get('privilegio') == 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+} else {
+    $style = 'margin-top: 130px';
+}
+
+$total = 0;
+foreach ($sumar['data'] as $item1):
+    if ($item1['type'] == 'regular'){
+        $total = $total + $item1['length'];
+    }    
+endforeach;
+?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>">             
+            <?php View::content() ?>
+            <div class="container">
+                <div class="title">
+                    <h3><?php echo $total ?> KM recorridos desde <?php echo $desde ?> hasta <?php echo $hasta ?></h3>
+                </div>                                        
+            </div>
+            <div class="container" id="listadoUsers">
+                <div class="table-responsive">                                                                  
+                    <table id="list_gps" class="table">
+                        <thead>
+                            <tr>
+                                <th>Desde</th>
+                                <th>Hasta</th>
+                                <th>KM Recorrido</th>
+                                <th>Velocidad Max</th>
+                                <th>Lugar de Inicio</th>  
+                                <th>Lugar de Término</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($listado['data'] as $item): ?>
+                            <?php if($item['type'] == 'regular'){ ?>
+                                <tr>
+                                    <td><?php echo $item['start_date'] ?></td>
+                                    <td><?php echo $item['end_date'] ?></td>
+                                    <td><?php echo $item['length'] ?></td>
+                                    <td><?php echo $item['max_speed'] ?></td>
+                                    <td><?php echo $item['start_address'] ?></td>
+                                    <td><?php echo $item['end_address'] ?></td>
+                                </tr>
+                            <?php } ?>    
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>                                         
+                </div>
+            </div>
+            <div class="container">
+                    <?php echo Form::open('gps/exporta_id') ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?php echo Form::hidden('exporta.id', '', $tracker_id) ?>
+                            <?php echo Form::hidden('exporta.desde', '', $desde) ?>
+                            <?php echo Form::hidden('exporta.hasta', '', $hasta) ?>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-fab-mini btn-round btn-xs" style="margin-top: 20px">
+                        Descargar
+                    </button>
+                    <?php echo Form::close() ?>
+                </div>
+        </div>
+    </div>    
+</div>

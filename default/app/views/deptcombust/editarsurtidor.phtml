@@ -1,0 +1,66 @@
+<?php
+if (Auth::get('privilegio') == 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+} else {
+    $style = 'margin-top: 130px';
+}
+?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>"> 
+            <?php echo Form::open() ?>
+            <?php echo Form::hidden('camiones.id') ?>
+            <div class="container">
+                <div class="title">
+                    <h3>Editar Surtidor</h3>
+                </div>                               
+            </div>
+            <div class="container">                
+                <div class="col-md-6">
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Patente</label>
+                            <?php echo Form::text('camiones.patente', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Marca</label>
+                            <?php echo Form::text('camiones.marca', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Modelo</label>
+                            <?php echo Form::text('camiones.modelo', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Año</label>
+                            <?php echo Form::text('camiones.ano', 'class="form-control" required') ?>
+                        </div>
+                    </div>                        
+                    <div class="col-sm-5">
+                        <div class="form-group label-floating has-success">
+                            <label class="control-label">Capacidad</label>
+                            <?php echo Form::text('camiones.capestan', 'class="form-control" required') ?>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+            <div class="container">
+                <button type="submit" class="btn btn-success btn-round">Guardar</button>
+                <?php echo '<a href="' . PUBLIC_PATH . 'deptcombust/surtidores/" class="btn btn-default btn-round">Cancelar</a>'; ?>                
+            </div>
+            <?php echo Form::close() ?>
+        </div>
+    </div>
+
+</div>   

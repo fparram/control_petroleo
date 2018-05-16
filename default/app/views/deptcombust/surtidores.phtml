@@ -1,0 +1,124 @@
+<?php if (Auth::get('privilegio')== 'ADMINISTRADOR') {
+    View::partial('menu-combust');
+    $style = 'margin-top: 130px';
+}  else {
+    $style = 'margin-top: 130px';
+} ?>
+
+<div class="wrapper">
+    <?php if (Auth::get('privilegio') == 'ADMINISTRADOR') { ?>
+        <div class="header">
+        </div>
+    <?php } ?>
+    <div class="main main-raised">
+        <div class="container" style="<?php echo $style ?>"> 
+            <div class="container">               
+                <div class="title">
+                    <h3>Surtidores de Combustible</h3>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <button type="button" rel="tooltip" title="Crear Nuevo Perfil" class="btn btn-info btn-round btn-sm" data-toggle="modal" data-target="#myModal">
+                            <i class="material-icons">local_gas_station</i>
+                            Nuevo Surtidor
+                        </button>
+                    </div>
+                </div>
+            </div>           
+            <div class="container" style="padding-top: 40px">
+                <div class="table-responsive">
+                    <div class="col-md-8">
+                        <?php if (count($page->items) > 0) { ?>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Patente</th>
+                                        <th>Vehiculo</th>
+                                        <th>Año</th>
+                                        <th>Capacidad</th>                                        
+                                        <th class="text-center">Accion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($page->items as $listado): ?> 
+                                        <tr>
+                                            <td><?php echo $listado->patente ?></td>
+                                            <td><?php echo $listado->marca." ".$listado->modelo ?></td>
+                                            <td><?php echo $listado->ano ?></td>
+                                            <td><?php echo $listado->capestan ?></td>                                            
+                                            <td class="td-actions text-center">                                                
+                                                <a rel="tooltip" title="Editar" href="/deptcombust/editarsurtidor/<?php echo $listado->id ?>" class="btn btn-success btn-simple btn-xs">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>                                                
+                                                <a rel="tooltip" title="Remover" href="/deptcombust/eliminarsurtidor/<?php echo $listado->id ?>" class="btn btn-danger btn-simple btn-xs">
+                                                    <i class="fa fa-times"></i>
+                                                </a>                                                                                            
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php } else { ?>
+                            <h2>No hay ningún registro</h2>
+                        <?php } ?>
+                        <?php View::partial('paginators/classic', false, array('page' => $page, 'url' => 'deptcombust/surtidores')); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <?php echo Form::open('users/nuevo/') ?>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">clear</i>
+                </button>
+                <h4 class="modal-title">Nuevo Surtidor</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="col-md-6">
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Patente</label>
+                                <?php echo Form::text('camiones.patente', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Marca</label>
+                                <?php echo Form::text('camiones.marca', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Modelo</label>
+                                <?php echo Form::text('camiones.modelo', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Año</label>
+                                <?php echo Form::text('camiones.ano', 'class="form-control" required') ?>
+                            </div>
+                        </div>                        
+                        <div class="col-sm-5">
+                            <div class="form-group label-floating has-success">
+                                <label class="control-label">Capacidad</label>
+                                <?php echo Form::text('camiones.capestan', 'class="form-control" required') ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-default btn-simple">Guardar</button>
+                <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Cerrar</button>
+            </div>
+            <?php echo Form::close() ?>
+        </div>
+    </div>
+</div>

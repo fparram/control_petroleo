@@ -1,0 +1,147 @@
+<?php
+
+Load::lib('fpdf/fpdf');
+
+$pdf = new FPDF();
+$pdf->AddPage();
+$pdf->SetFillColor('240', '240', '240');
+
+
+$dia = date("d");
+$mes = date("F");
+$ano = date("Y");
+if ($mes == "January") {
+    $mes = "Enero";
+}
+if ($mes == "February") {
+    $mes = "Febrero";
+}
+if ($mes == "March") {
+    $mes = "Marzo";
+}
+if ($mes == "April") {
+    $mes = "Abril";
+}
+if ($mes == "May") {
+    $mes = "Mayo";
+}
+if ($mes == "June") {
+    $mes = "Junio";
+}
+if ($mes == "July") {
+    $mes = "Julio";
+}
+if ($mes == "August") {
+    $mes = "Agosto";
+}
+if ($mes == "September") {
+    $mes = "Septiembre";
+}
+if ($mes == "October") {
+    $mes = "Octubre";
+}
+if ($mes == "November") {
+    $mes = "Noviembre";
+}
+if ($mes == "December") {
+    $mes = "Diciembre";
+}
+$fecha = $dia . '/' . $mes . '/' . $ano;
+$pdf->Image('img/material-kit/logo_1.png', 10, 15, 20);
+$pdf->SetFont('Times', '', 8);
+
+
+
+$pdf->Cell(150);
+$pdf->Cell(15, 15, utf8_decode('Datos a la fecha: ' . $fecha), 0, 0, 'L');
+$pdf->Ln(3);
+$pdf->Cell(26);
+$pdf->Cell(15, 15, utf8_decode('INVERSIONES SANTA FE S.A.'), 0, 0, 'L');
+$pdf->Ln(3);
+$pdf->Cell(27);
+$pdf->Cell(15, 15, utf8_decode('DEPTO. DE COMBUSTIBLE'), 0, 0, 'L');
+$pdf->Ln(1);
+$pdf->Cell(29);
+$pdf->Line(35, 28, 80, 28);
+$pdf->Ln(2);
+$pdf->Cell(29);
+$pdf->Cell(15, 15, utf8_decode('DIRECCIÓN 4 NORTE #30'), 0, 0, 'L');
+$pdf->Ln(20);
+
+$tlitros = 0;
+$tlasig = 0;
+$tlcarga = 0;   
+
+$pdf->SetFont('Times', 'B', 16);
+$pdf->Cell(0, 0, utf8_decode('Solicitud Nº' . $solicitud->id), 0, 0, 'C');
+$pdf->Ln();
+$pdf->SetFont('Times', '', 10);
+$pdf->Cell(0, 10, utf8_decode('(' . $solicitud->fecha . ')'), 0, 0, 'C');
+$pdf->Ln(20);
+$pdf->SetFont('Times', 'B', 10);
+$pdf->Cell(30, 10, utf8_decode('Unidad de Negocio:'), 0, 0, 'C');
+$pdf->SetFont('Times', '', 8);
+$pdf->Cell(40, 10, utf8_decode($solicitud->getUnegocio()->nombre), 0, 0, 'L');
+$pdf->SetFont('Times', 'B', 10);
+$pdf->Cell(150, 10, utf8_decode('Solicitado por:'), 0, 0, 'C');
+$pdf->SetFont('Times', '', 8);
+$pdf->Cell(-30, 10, utf8_decode($solicitud->getUsers()->nombre . ' ' . $solicitud->getUsers()->apellido), 0, 0, 'R');
+$pdf->Ln(4);
+$pdf->SetFont('Times', 'B', 10);
+$pdf->Cell(28, 10, utf8_decode('Fecha de Entrega:'), 0, 0, 'C');
+$pdf->SetFont('Times', '', 8);
+$pdf->Cell(25, 10, utf8_decode($solicitud->fentrega), 0, 0, 'L');
+$pdf->Ln(4);
+$pdf->SetFont('Times', 'B', 10);
+$pdf->Cell(12, 10, utf8_decode('Estado:'), 0, 0, 'C');
+$pdf->SetFont('Times', 'B', 8);
+$pdf->Cell(46, 10, utf8_decode($solicitud->estado), 0, 0, 'L');
+$pdf->Ln(10);
+$pdf->SetFont('Times', 'B', 10);
+$pdf->Cell(15, 10, utf8_decode('Detalle:'), 0, 0, 'C');
+$pdf->Ln(10);
+$pdf->SetFont('Times', '', 7);
+
+$pdf->Cell(10, 6, utf8_decode('Patente'), 1, 0, 'C', 'true');
+$pdf->Cell(35, 6, utf8_decode('T. de Vehiculo'), 1, 0, 'C', 'true');
+$pdf->Cell(37, 6, utf8_decode('Marca'), 1, 0, 'C', 'true');
+$pdf->Cell(35, 6, utf8_decode('Trabajo a Realizar'), 1, 0, 'C', 'true');
+$pdf->Cell(35, 6, utf8_decode('Ubicacion'), 1, 0, 'C', 'true');
+$pdf->Cell(15, 6, utf8_decode('L. Solicitados'), 1, 0, 'C', 'true');
+$pdf->Cell(15, 6, utf8_decode('L. Asignados'), 1, 0, 'C', 'true');
+$pdf->Cell(15, 6, utf8_decode('L. Cargados'), 1, 0, 'C', 'true');
+$pdf->Ln();
+
+foreach ($detalle as $items) {
+    $tlitros = $tlitros + $items->litros;
+    $tlasig = $tlasig + $items->lasignados;
+    $tlcarga = $tlcarga + $items->lcargados;
+    $pdf->Cell(10, 6, utf8_decode($items->getVehiculos()->patente), 1, 0, 'C');
+    $pdf->Cell(35, 6, utf8_decode($items->getVehiculos()->getTvehiculos()->nombre), 1, 0, 'C');
+    $pdf->Cell(37, 6, utf8_decode($items->getVehiculos()->marca), 1, 0, 'C');
+    $pdf->Cell(35, 6, utf8_decode($items->trabajo), 1, 0, 'C');
+    $pdf->Cell(35, 6, utf8_decode($items->ubicacion), 1, 0, 'C');
+    $pdf->Cell(15, 6, utf8_decode($items->litros), 1, 0, 'C');
+    $pdf->Cell(15, 6, utf8_decode($items->lasginados), 1, 0, 'C');
+    $pdf->Cell(15, 6, utf8_decode($items->lcargados), 1, 0, 'C');
+    $pdf->Ln();
+}
+
+$pdf->Ln(10);
+$pdf->SetFont('Times', 'B', 10);
+$pdf->Cell(305, 10, utf8_decode('Total L. Solicitados:'), 0, 0, 'C');
+$pdf->SetFont('Times', '', 10);
+$pdf->Cell(-265, 10, utf8_decode($tlitros), 0, 0, 'C');
+$pdf->Ln(4);
+$pdf->SetFont('Times', 'B', 10);
+$pdf->Cell(304, 10, utf8_decode('Total L. Asignados:'), 0, 0, 'C');
+$pdf->SetFont('Times', '', 10);
+$pdf->Cell(-263, 10, utf8_decode($tlasig), 0, 0, 'C');
+$pdf->Ln(4);
+$pdf->SetFont('Times', 'B', 10);
+$pdf->Cell(303, 10, utf8_decode('Total L. Cargados:'), 0, 0, 'C');
+$pdf->SetFont('Times', '', 10);
+$pdf->Cell(-261, 10, utf8_decode($tlcarga), 0, 0, 'C');
+
+
+$pdf->Output('solicitud'.$solicitud->id.'.pdf', 'I', true);

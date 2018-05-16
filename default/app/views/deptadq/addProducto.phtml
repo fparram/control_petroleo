@@ -1,0 +1,10 @@
+<?php
+View::template('');
+?>
+<tr class="<?php echo $producto->id ?>">
+    <td style="width: 200px"><?php echo $producto->nombre ?><?php echo Form::hidden('producto.', '', $producto->id) ?></td>
+    <td style="width: 50px"><?php echo Form::text('cantidad.', 'class="form-control" required') ?></td>
+    <td style="width: 50px"><?php echo Form::select('unidad.', array('1' => 'Kg', '2' => 'M2'), 'class="form-control" required'); ?></td>
+    <td style="width: 250px"><?php echo Form::text('observacion.', 'class="form-control" onblur="this.value=this.value.toUpperCase();" required') ?></td>    
+    <td class="text-center" style="width: 50px"><a title="Eliminar" href="#" id="<?php echo $producto->id ?>" class="btn btn-danger btn-fab btn-fab-mini btn-round" onclick="deletPatente(this.id)"><i class="material-icons">clear</i></a></td>    
+</tr>

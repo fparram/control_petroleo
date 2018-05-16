@@ -1,0 +1,64 @@
+<?php
+
+header('Content-Type: application/vdn.ms-excel');
+header('Content-Disposition: attachment; filename=reporte.xls');
+
+Load::lib('PHPExcel');
+
+$excel = new PHPExcel();
+
+$excel->getProperties()->setCreator('SantaFe')->setLastModifiedBy('SantaFe')->setTitle('Reporte');
+
+$excel->setActiveSheetIndex(0);
+
+$pagina = $excel->getActiveSheet();
+
+$pagina->setTitle('Reporte');
+
+$pagina->setCellValue('A1', 'ID');
+$pagina->setCellValue('B1', 'F. Recepcion');
+$pagina->setCellValue('C1', 'F. Factura');
+$pagina->setCellValue('D1', 'T. Documento');
+$pagina->setCellValue('E1', 'Proveedor');
+$pagina->setCellValue('F1', 'Neto');
+$pagina->setCellValue('G1', 'Iva');
+$pagina->setCellValue('H1', 'Total');
+$pagina->setCellValue('I1', 'U. Negocio');
+$pagina->setCellValue('J1', 'Correlativo');
+$pagina->setCellValue('K1', 'Adicional');
+$pagina->setCellValue('L1', 'Observacion');
+$pagina->setCellValue('M1', 'Estado');
+
+$pagina->getStyle('A1:M1')->getFont()->setBold(TRUE);
+$pagina->getStyle('A1:M1')->getFont()->setSize(12);
+
+$i = 1;
+foreach ($busqueda as $items):
+    $i++;
+    $pagina->setCellValue('A' . $i, $items->id);
+    $pagina->setCellValue('B' . $i, $items->frecep);
+    $pagina->setCellValue('C' . $i, $items->ffact);
+    $pagina->setCellValue('D' . $i, $items->tdoc);
+    $pagina->setCellValue('E' . $i, $items->proveedor);
+    $pagina->setCellValue('F' . $i, $items->neto);
+    $pagina->setCellValue('G' . $i, $items->iva);
+    $pagina->setCellValue('H' . $i, $items->total);
+    if ($unegocio->unegocio_id == NULL){
+    $pagina->setCellValue('I' . $i, "No Asignado");
+    }else{
+    $pagina->setCellValue('I' . $i, $items->getUnegocio()->nombre);
+    }    
+    $pagina->setCellValue('J' . $i, $items->correlativo);
+    $pagina->setCellValue('K' . $i, $items->adicional);
+    $pagina->setCellValue('L' . $i, $items->observ);
+    $pagina->setCellValue('M' . $i, $items->estado);
+
+endforeach;
+
+foreach (range('A', 'M') as $column):
+    $pagina->getColumnDimension($column)->setAutoSize(TRUE);
+endforeach;
+
+
+$objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+$objWriter->save('php://output');

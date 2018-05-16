@@ -1,0 +1,7 @@
+<?php echo Form::dbSelect('solicitud.items_id', 'nombre', array('items', 'findByItems', $ccosto_id), '- Seleccione -', 'class="chosen-select" required'); ?>
+<script>
+    $(document).ready(function () {
+        $(".chosen-select").chosen();
+
+    });   
+</script>
